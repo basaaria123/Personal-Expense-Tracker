@@ -13,28 +13,52 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 
 FILE_NAME = "expenses.json"
+BUDGET_FILE = "budget.json"
 
-# Load existing data
+# Load expenses
 def load_expenses():
     if os.path.exists(FILE_NAME):
         with open(FILE_NAME, "r") as file:
             return json.load(file)
     return []
 
-# Save data
+# Save expenses
 def save_expenses(expenses):
     with open(FILE_NAME, "w") as file:
         json.dump(expenses, file, indent=4)
 
+# Load budget
+def load_budget():
+    if os.path.exists(BUDGET_FILE):
+        with open(BUDGET_FILE, "r") as file:
+            return json.load(file).get("budget", 5000)
+    return 5000
+
+# Save budget
+def save_budget(budget):
+    with open(BUDGET_FILE, "w") as file:
+        json.dump({"budget": budget}, file, indent=4)
+
+# Change budget
+def change_budget():
+    try:
+        new_budget = float(input("Enter new budget: "))
+        save_budget(new_budget)
+        print(f"Budget updated to ₹{new_budget}\n")
+        return new_budget
+    except ValueError:
+        print("Invalid input.\n")
+        return None
+
 # Add expense
-def add_expense(expenses):
+def add_expense(expenses, budget):
     try:
         amount = float(input("Enter amount: "))
     except ValueError:
         print("Invalid amount.\n")
         return
 
-    category = input("Enter category (food, travel, etc.): ")
+    category = input("Enter category: ")
     note = input("Enter note: ")
 
     date_input = input("Enter date (YYYY-MM-DD) or press Enter for today: ")
@@ -60,7 +84,9 @@ def add_expense(expenses):
     save_expenses(expenses)
     print("Expense added successfully.\n")
 
-# View all expenses
+    budget_warning(expenses, budget)
+
+# View expenses
 def view_expenses(expenses):
     if not expenses:
         print("No expenses found.\n")
@@ -75,7 +101,7 @@ def total_spending(expenses):
     total = sum(exp["amount"] for exp in expenses)
     print(f"Total Spending: ₹{total}\n")
 
-# Category-wise summary
+# Category summary
 def category_summary(expenses):
     summary = {}
 
@@ -87,6 +113,49 @@ def category_summary(expenses):
     for cat, amt in summary.items():
         print(f"{cat}: ₹{amt}")
     print()
+
+# Spending insights
+def spending_insights(expenses):
+    if not expenses:
+        print("No data available.\n")
+        return
+
+    summary = {}
+
+    for exp in expenses:
+        cat = exp["category"]
+        summary[cat] = summary.get(cat, 0) + exp["amount"]
+
+    max_cat = max(summary, key=summary.get)
+    min_cat = min(summary, key=summary.get)
+
+    print("=== Insights ===")
+    print(f"Highest: {max_cat} (₹{summary[max_cat]})")
+    print(f"Lowest: {min_cat} (₹{summary[min_cat]})")
+
+    total = sum(summary.values())
+    avg = total / len(summary)
+    print(f"Average per category: ₹{avg:.2f}\n")
+
+# Budget warning with percentage
+def budget_warning(expenses, budget):
+    total = sum(exp["amount"] for exp in expenses)
+
+    if budget == 0:
+        print("Budget is 0. Please update it.\n")
+        return
+
+    percentage = (total / budget) * 100
+
+    print(f"Budget used: {percentage:.2f}%")
+    print(f"Budget: ₹{budget} | Spending: ₹{total}")
+
+    if total > budget:
+        print("⚠️ Exceeded budget!\n")
+    elif total > 0.8 * budget:
+        print("⚠️ Near budget limit.\n")
+    else:
+        print()
 
 # Plot graph
 def plot_expenses(expenses):
@@ -100,78 +169,86 @@ def plot_expenses(expenses):
         cat = exp["category"]
         summary[cat] = summary.get(cat, 0) + exp["amount"]
 
-    categories = list(summary.keys())
-    amounts = list(summary.values())
-
-    plt.bar(categories, amounts)
+    plt.bar(list(summary.keys()), list(summary.values()))
     plt.xlabel("Categories")
     plt.ylabel("Amount (₹)")
     plt.title("Expense Distribution")
-
     plt.show()
 
 # Filter by date
 def filter_by_date(expenses):
     date = input("Enter date (YYYY-MM-DD): ")
-
     found = False
+
     for exp in expenses:
         if exp["date"] == date:
             print(f"₹{exp['amount']} | {exp['category']} | {exp['note']}")
             found = True
 
     if not found:
-        print("No expenses found for this date.\n")
+        print("No expenses found.\n")
     else:
         print()
 
-# Clear all expenses
+# Clear all
 def clear_expenses(expenses):
-    confirm = input("Are you sure you want to delete ALL expenses? (yes/no): ").lower()
+    confirm = input("Delete ALL expenses? (yes/no): ").lower()
 
     if confirm == "yes":
         expenses.clear()
         save_expenses(expenses)
-        print("All expenses have been deleted.\n")
+        print("All expenses deleted.\n")
     else:
-        print("Operation cancelled.\n")
+        print("Cancelled.\n")
 
-# Main menu
+# Main
 def main():
     expenses = load_expenses()
+    budget = load_budget()
 
     while True:
         print("==== Expense Tracker ====")
-        print("1. Add Expense")
-        print("2. View Expenses")
-        print("3. Total Spending")
-        print("4. Category Summary")
-        print("5. Show Graph")
-        print("6. Filter by Date")
-        print("7. Clear All Expenses")
-        print("8. Exit")
+        print("1. Change Budget")
+        print("2. Add Expense")
+        print("3. View Expenses")
+        print("4. Total Spending")
+        print("5. Category Summary")
+        print("6. Show Graph")
+        print("7. Filter by Date")
+        print("8. Clear All Expenses")
+        print("9. Spending Insights")
+        print("10. Check Budget Status")
+        print("11. Exit")
 
         choice = input("Enter choice: ")
 
         if choice == "1":
-            add_expense(expenses)
+            new_budget = change_budget()
+            if new_budget is not None:
+                budget = new_budget
         elif choice == "2":
-            view_expenses(expenses)
+            add_expense(expenses, budget)
         elif choice == "3":
-            total_spending(expenses)
+            view_expenses(expenses)
         elif choice == "4":
-            category_summary(expenses)
+            total_spending(expenses)
         elif choice == "5":
-            plot_expenses(expenses)
+            category_summary(expenses)
         elif choice == "6":
-            filter_by_date(expenses)
+            plot_expenses(expenses)
         elif choice == "7":
-            clear_expenses(expenses)
+            filter_by_date(expenses)
         elif choice == "8":
+            clear_expenses(expenses)
+        elif choice == "9":
+            spending_insights(expenses)
+        elif choice == "10":
+            budget_warning(expenses, budget)
+        elif choice == "11":
             print("Goodbye!")
             break
         else:
-            print("Invalid choice. Try again.\n")
+            print("Invalid choice.\n")
 
 if __name__ == "__main__":
     main()
