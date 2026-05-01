@@ -42,6 +42,6 @@ Basaaria Imroz
 
 ## Project Banner
 ![Cover](https://github.com/basaaria123/Personal-Expense-Tracker/blob/main/e3a93071-d63f-4752-9759-cdef59210f2c.png?raw=true)
-![Features](https://github.com/basaaria123/Personal-Expense-Tracker/blob/main/5ed26e33-ff1b-46da-893e-fc643266978f.png?raw=true)
+![Features](https://github.com/basaaria123/Personal-Expense-Tracker/blob/main/5a8b2119-d84d-4549-a151-5df4821b5c1e.png?raw=true)
 ![Outputs](https://github.com/basaaria123/Personal-Expense-Tracker/blob/main/19ca9be8-9068-4455-a509-bc1f83854508.png?raw=true)
 
