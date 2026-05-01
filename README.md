@@ -35,12 +35,13 @@ python expense_tracker.py
 * Monthly and yearly reports
 * GUI version (Tkinter or web app)
 * Export data to CSV
+  
+## Author
+
+Basaaria Imroz
 
 ## Project Banner
 ![Cover](https://github.com/basaaria123/Personal-Expense-Tracker/blob/main/e3a93071-d63f-4752-9759-cdef59210f2c.png?raw=true)
 ![Features](https://github.com/basaaria123/Personal-Expense-Tracker/blob/main/5ed26e33-ff1b-46da-893e-fc643266978f.png?raw=true)
 ![Outputs](https://github.com/basaaria123/Personal-Expense-Tracker/blob/main/19ca9be8-9068-4455-a509-bc1f83854508.png?raw=true)
 
-## Author
-
-Basaaria Imroz
