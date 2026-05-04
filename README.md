@@ -9,6 +9,13 @@ A command-line based expense management application developed in Python, designe
 SpendSense Tracker is a lightweight CLI tool that enables users to track expenses efficiently while gaining meaningful insights into their spending patterns. It combines simple data storage with analytical features such as budgeting, categorization, and visualization.
 
 ---
+## Project Banner
+![CLI Outputs](https://github.com/basaaria123/Personal-Expense-Tracker/blob/main/7556b238-d20b-4dcb-8298-5aa91d6cbc3e.png?raw=true)
+![Cover](https://github.com/basaaria123/Personal-Expense-Tracker/blob/main/e3a93071-d63f-4752-9759-cdef59210f2c.png?raw=true)
+![Features](https://github.com/basaaria123/Personal-Expense-Tracker/blob/main/5a8b2119-d84d-4549-a151-5df4821b5c1e.png?raw=true)
+![Outputs](https://github.com/basaaria123/Personal-Expense-Tracker/blob/main/19ca9be8-9068-4455-a509-bc1f83854508.png?raw=true)
+
+---
 
 ## 🚀 Key Features
 
@@ -62,11 +69,3 @@ python expense_tracker.py
 ## 👤 Author
 
 **Basaaria Imroz**
-
----
-## Project Banner
-![CLI Outputs](https://github.com/basaaria123/Personal-Expense-Tracker/blob/main/7556b238-d20b-4dcb-8298-5aa91d6cbc3e.png?raw=true)
-![Cover](https://github.com/basaaria123/Personal-Expense-Tracker/blob/main/e3a93071-d63f-4752-9759-cdef59210f2c.png?raw=true)
-![Features](https://github.com/basaaria123/Personal-Expense-Tracker/blob/main/5a8b2119-d84d-4549-a151-5df4821b5c1e.png?raw=true)
-![Outputs](https://github.com/basaaria123/Personal-Expense-Tracker/blob/main/19ca9be8-9068-4455-a509-bc1f83854508.png?raw=true)
-
